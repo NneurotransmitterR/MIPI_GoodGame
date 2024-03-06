@@ -25,7 +25,9 @@ print('successfully loading inferring pairs. =====> qty:{}'.format(len(infer_dat
 
 print('---------------------------------------- step 3/4 : model defining... ----------------------------------------------')
 # 定义模型并将其移动到GPU上
-model = Restormer().cuda()
+os.environ['CUDA_VISIBLE_DEVICES'] = '2,3'
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+model = Restormer().to(device)
 
 # 使用 DataParallel 包装模型以在两个GPU上运行
 model = torch.nn.DataParallel(model, device_ids=[0, 1])
